@@ -8,6 +8,32 @@ import org.litepal.crud.DataSupport;
 
 public class Log extends DataSupport{
 
-    public int id;
+    private int id;
+    private String name;
+    private Long counTime;
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getCounTime() {
+        return counTime;
+    }
+
+    public void setCounTime(Long counTime) {
+        this.counTime = counTime;
+    }
 }
