@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             long l = System.currentTimeMillis();
 
-            for (int i = 1; i <= logNames.length+1; i++) {
+            for (int i = 1; i <= logNames.length; i++) {
 
                 Log log = new Log();
                 log.setCounTime(0l);

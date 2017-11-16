@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/tv_counttime"
-        android:text="项目名称"
+        android:text="总计时常"
         android:textColor="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
