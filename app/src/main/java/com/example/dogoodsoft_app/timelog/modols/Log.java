@@ -12,6 +12,19 @@ public class Log extends DataSupport{
     private String name;
     private Long counTime;
 
+    public boolean isstart = false;
+
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
+
+    private Long startTime;
+
+
 
     public int getId() {
         return id;

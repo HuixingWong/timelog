@@ -15,6 +15,9 @@ import java.util.Map;
  */
 public class DummyContent {
 
+
+    private static final String [] logNames = new String[]{"编程","读书","魔术"};
+
     /**
      * An array of sample (dummy) items.
      */
@@ -25,11 +28,17 @@ public class DummyContent {
      */
     public static final Map<Integer, Log> ITEM_MAP = new HashMap<Integer, Log>();
 
-    private static final int COUNT = 25;
 
     static {
         // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
+        for (int i = 1; i <= logNames.length+1; i++) {
+
+            Log log = new Log();
+            log.setCounTime(0l);
+            log.setId(i);
+            log.setName(logNames[i-1]);
+            log.setStartTime( System.currentTimeMillis());
+
         }
     }
 

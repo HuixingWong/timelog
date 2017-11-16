@@ -7,13 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.dogoodsoft_app.timelog.MyApp;
 import com.example.dogoodsoft_app.timelog.R;
-import com.example.dogoodsoft_app.timelog.dummy.DummyContent;
 import com.example.dogoodsoft_app.timelog.modols.Log;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
@@ -25,7 +22,7 @@ import java.util.List;
 public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyclerViewAdapter2.ViewHolder>
         implements ItemTouchHellperAdapter {
 
-    private final List<DummyContent.DummyItem> mValues;
+    private final List<Log> mValues;
 
     /**
      * 保存点击暂停时候的时间值
@@ -72,7 +69,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     private boolean mIsStartFromRecycleed = false;
 
 
-    public MyItemRecyclerViewAdapter2(List<DummyContent.DummyItem> items) {
+    public MyItemRecyclerViewAdapter2(List<Log> items) {
         mValues = items;
     }
 
@@ -125,10 +122,10 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final DummyContent.DummyItem dummyItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
+        final Log log = mValues.get(position);
+        holder.mIdView.setText(mValues.get(position).getName());
 
-        if (dummyItem.isstart && position == mRecordPosition) {
+        if (log.isstart && position == mRecordPosition) {
             if (holder.mView.isFrontSide()) {
                 holder.mView.flipTheView();
 
@@ -166,7 +163,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
                 if (mRecordPosition == -1) {
                     holder.mView.flipTheView();
                     mRecordPosition = position;
-                    dummyItem.isstart = true;
+                    log.isstart = true;
 
                     mStarttime = SystemClock.elapsedRealtime();
 
@@ -224,7 +221,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
                 holder.chronometer.stop();
                 holder.chronometer.setBase(SystemClock.elapsedRealtime());
                 holder.mView.flipTheView();
-                dummyItem.isstart = false;
+                log.isstart = false;
 
                 clearData();
 
