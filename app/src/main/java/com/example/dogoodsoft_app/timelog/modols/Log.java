@@ -7,4 +7,7 @@ import org.litepal.crud.DataSupport;
  */
 
 public class Log extends DataSupport{
+
+    public int id;
+
 }
