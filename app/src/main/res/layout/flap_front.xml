@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.dogoodsoft_app.timebook2.defineview.PercentRelativeLayoyut xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_item_selected"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:id="@+id/img_project_logo"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@mipmap/ic_launcher_round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_project_name"
+        android:text="项目名称"
+        android:textColor="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/img_project_logo"
+        />
+
+    <TextView
+        android:id="@+id/tv_counttime"
+        android:text="项目名称"
+        android:textColor="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_project_name"
+        />
+
+
+
+    <Button
+        android:background="@color/transparent"
+        android:id="@+id/start_btn"
+        android:text="开始"
+        android:layout_below="@+id/tv_counttime"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+
+</com.example.dogoodsoft_app.timebook2.defineview.PercentRelativeLayoyut>

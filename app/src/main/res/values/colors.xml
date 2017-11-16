@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="emerald">#52DD6C</color>
+    <color name="transparent">#01000000</color>
+    <color name="ferrari_red">#F72A00</color>
+    <color name="mantis">#8AC44B</color>
+    <color name="green_blue">#1569AD</color>
 </resources>
