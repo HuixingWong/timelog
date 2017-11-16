@@ -281,8 +281,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
         public final Button mImgbtn;
         public final Chronometer chronometer;
 
-        public final ImageButton mBtnPause;
-        public final ImageButton mBtnStop;
+        public final Button mBtnPause;
+        public final Button mBtnStop;
 
 
         public ViewHolder(EasyFlipView view) {

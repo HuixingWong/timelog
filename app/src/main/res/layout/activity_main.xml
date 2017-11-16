@@ -14,7 +14,6 @@
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
-        tools:listitem="@layout/fragment_item"
         />
 
 

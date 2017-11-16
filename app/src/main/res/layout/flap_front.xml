@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.dogoodsoft_app.timebook2.defineview.PercentRelativeLayoyut xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.dogoodsoft_app.timelog.defineview.PercentRelativeLayoyut
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_item_selected"
@@ -51,4 +52,4 @@
 
 
 
-</com.example.dogoodsoft_app.timebook2.defineview.PercentRelativeLayoyut>
+</com.example.dogoodsoft_app.timelog.defineview.PercentRelativeLayoyut>
