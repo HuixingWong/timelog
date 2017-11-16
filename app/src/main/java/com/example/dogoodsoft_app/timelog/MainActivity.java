@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         snapHelper.attachToRecyclerView(recyclerView);
 
         MyItemRecyclerViewAdapter2 mAdapter =
-                new MyItemRecyclerViewAdapter2(logs);
+                new MyItemRecyclerViewAdapter2(logs,this);
 //            recyclerView.addItemDecoration(new SpaceItemDecoration(10,2));
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(mAdapter);
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Log log = new Log();
                 log.setCounTime(0l);
-                log.setId(i);
                 log.setName(logNames[i-1]);
                 log.setStartTime(l);
                 log.save();

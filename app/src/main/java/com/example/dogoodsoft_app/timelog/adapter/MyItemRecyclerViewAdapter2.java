@@ -1,5 +1,7 @@
 package com.example.dogoodsoft_app.timelog.adapter;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import com.example.dogoodsoft_app.timelog.MyApp;
 import com.example.dogoodsoft_app.timelog.R;
 import com.example.dogoodsoft_app.timelog.modols.Log;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
+import org.litepal.crud.DataSupport;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +42,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     private long mStarttime = 0l;
 
     private long logtime = 0l;
+
+    private Context context;
 
 
     /**
@@ -69,8 +74,9 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     private boolean mIsStartFromRecycleed = false;
 
 
-    public MyItemRecyclerViewAdapter2(List<Log> items) {
+    public MyItemRecyclerViewAdapter2(List<Log> items,Context context) {
         mValues = items;
+        this.context = context;
     }
 
     @Override
@@ -115,7 +121,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        EasyFlipView view = (EasyFlipView) LayoutInflater.from(parent.getContext())
+        EasyFlipView view = (EasyFlipView) LayoutInflater.from(context)
                 .inflate(R.layout.recycleview_item, parent, false);
         return new ViewHolder(view);
     }
@@ -322,9 +328,38 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
              */
             this.notifyDataSetChanged();
 
+            updateWhenMove(frompostion,toposition);
+
         }
 
     }
+
+    public void updateWhenMove(int fromposition,int toPosition){
+
+        Log logfrom = mValues.get(fromposition);
+
+        int idFrom = logfrom.getId();
+
+        ContentValues valuesFrom = new ContentValues();
+        valuesFrom.put("name",logfrom.getName());
+        valuesFrom.put("counTime",logfrom.getCounTime());
+        valuesFrom.put("startTime",logfrom.getStartTime());
+
+        Log logTo = mValues.get(toPosition);
+
+        int idTo = logTo.getId();
+
+        ContentValues valuesTo = new ContentValues();
+        valuesTo.put("name",logTo.getName());
+        valuesTo.put("counTime",logTo.getCounTime());
+        valuesTo.put("startTime",logTo.getStartTime());
+
+        DataSupport.update(Log.class,valuesFrom,idTo);
+        DataSupport.update(Log.class,valuesTo,idFrom);
+
+
+    }
+
 
     @Override
     public void onItemDissmiss(RecyclerView.ViewHolder source) {
