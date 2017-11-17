@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.dogoodsoft_app.timelog.MyApp;
@@ -23,7 +24,7 @@ import java.util.List;
 
 /**
  */
-public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyclerViewAdapter2.ViewHolder>
+public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchHellperAdapter {
 
     private final List<Log> mValues;
@@ -73,6 +74,11 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
      */
     private boolean mIsStartFromRecycleed = false;
 
+    public static enum ITEM_TYPE {
+        ITEM_TYPE_NORMAL,
+        ITEM_TYPE_END,
+    }
+
 
     public MyItemRecyclerViewAdapter2(List<Log> items,Context context) {
         mValues = items;
@@ -80,9 +86,10 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     }
 
     @Override
-    public void onViewRecycled(ViewHolder holder) {
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        if (holder.getAdapterPosition() == mRecordPosition && mRecordPosition != -1) {
+        if (holder.getAdapterPosition() == mRecordPosition
+                && mRecordPosition != -1 && holder instanceof NormalHolder) {
 
             /**
              * 每次滑动都会出现时间差，原因是每次滑动都会执行这个方法每次执行的时候都会出现
@@ -90,7 +97,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
              *
              */
 
-            holder.mView.flipTheView();
+            ((NormalHolder)holder).mView.flipTheView();
 
             if (!isChronometerRunning) {
 
@@ -120,149 +127,189 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        EasyFlipView view = (EasyFlipView) LayoutInflater.from(context)
-                .inflate(R.layout.recycleview_item, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Log log = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getName());
-
-        holder.mTvCountTime.setText(TimeUtils.format(log.getCounTime()));
-
-        if (log.isstart && position == mRecordPosition) {
-            if (holder.mView.isFrontSide()) {
-                holder.mView.flipTheView();
-
-                if (isChronometerRunning) {
-
-
-                    systemtime12 = System.currentTimeMillis() - systemtime1;
-                    /**
-                     * 因为longtime记录的是走过的时间，所以出了监听cheronometor的方法里面自增之外，当恢复
-                     * 显示的时候，如果是正在计时的情况，还要加上时间差
-                     */
-                    logtime += systemtime12;
-                    holder.chronometer.setBase(SystemClock.elapsedRealtime() - mRecordtime2 - systemtime12);
-                    holder.chronometer.start();
-
-
-                } else {
-                    holder.chronometer.setBase(SystemClock.elapsedRealtime() - mRecordtime2);
-                    holder.chronometer.stop();
-                }
-
-            }
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ITEM_TYPE.ITEM_TYPE_NORMAL.ordinal()){
+            EasyFlipView view = (EasyFlipView) LayoutInflater.from(context)
+                    .inflate(R.layout.recycleview_item, parent, false);
+            return new NormalHolder(view);
         }else {
-            if (holder.mView.isBackSide()){
 
-                holder.mView.flipTheView();
+            View view = LayoutInflater.from(context).inflate(R.layout.item_add,parent,false);
 
-            }
+            return new empteyHolder(view);
         }
 
 
-        holder.mImgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mRecordPosition == -1) {
-                    holder.mView.flipTheView();
-                    mRecordPosition = position;
-                    log.isstart = true;
-
-                    mStarttime = SystemClock.elapsedRealtime();
-
-                    holder.chronometer.setBase(mStarttime);
-                    holder.chronometer.start();
-                    isChronometerRunning = true;
-                    mRecordPosition = position;
+    }
 
 
-                }
+    @Override
+    public int getItemViewType(int position) {
 
-            }
-        });
+        if (position < mValues.size()){
 
-        holder.mBtnPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            return ITEM_TYPE.ITEM_TYPE_NORMAL.ordinal();
+
+        }else {
+            return ITEM_TYPE.ITEM_TYPE_END.ordinal();
+
+        }
+
+    }
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
 
-                if (isChronometerRunning) {
-                    holder.chronometer.stop();
-                    isChronometerRunning = false;
-                    mRecordtime = SystemClock.elapsedRealtime();
-                } else {
+        if (holder instanceof NormalHolder) {
 
-                    if (mIsStartFromRecycleed) {
+            final Log log = mValues.get(position);
+            ((NormalHolder)holder).mIdView.setText(mValues.get(position).getName());
 
-                        holder.chronometer.setBase(SystemClock.elapsedRealtime() - mRecordtime2);
-                        mIsStartFromRecycleed = false;
+            ((NormalHolder)holder).mTvCountTime.setText(TimeUtils.format(log.getCounTime()));
+
+            if (log.isstart && position == mRecordPosition) {
+                if ( ((NormalHolder)holder).mView.isFrontSide()) {
+                    ((NormalHolder)holder).mView.flipTheView();
+
+                    if (isChronometerRunning) {
+
+
+                        systemtime12 = System.currentTimeMillis() - systemtime1;
+                        /**
+                         * 因为longtime记录的是走过的时间，所以出了监听cheronometor的方法里面自增之外，当恢复
+                         * 显示的时候，如果是正在计时的情况，还要加上时间差
+                         */
+                        logtime += systemtime12;
+                        ((NormalHolder)holder).chronometer.setBase(SystemClock.elapsedRealtime() - mRecordtime2 - systemtime12);
+                        ((NormalHolder)holder).chronometer.start();
+
 
                     } else {
+                        ((NormalHolder)holder).chronometer.setBase(SystemClock.elapsedRealtime() - mRecordtime2);
+                        ((NormalHolder)holder).chronometer.stop();
+                    }
 
-                        holder.chronometer.setBase(holder.chronometer.getBase()
-                                + SystemClock.elapsedRealtime() - mRecordtime);
+                }
+            } else {
+                if ( ((NormalHolder)holder).mView.isBackSide()) {
+
+                    ((NormalHolder)holder).mView.flipTheView();
+
+                }
+            }
+
+
+            ((NormalHolder)holder).mImgbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mRecordPosition == -1) {
+                        ((NormalHolder)holder).mView.flipTheView();
+                        mRecordPosition = position;
+                        log.isstart = true;
+
+                        mStarttime = SystemClock.elapsedRealtime();
+
+                        ((NormalHolder)holder).chronometer.setBase(mStarttime);
+                        ((NormalHolder)holder).chronometer.start();
+                        isChronometerRunning = true;
+                        mRecordPosition = position;
+
+
+                    }
+
+                }
+            });
+
+            ((NormalHolder)holder).mBtnPause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    if (isChronometerRunning) {
+                        ((NormalHolder)holder).chronometer.stop();
+                        isChronometerRunning = false;
+                        mRecordtime = SystemClock.elapsedRealtime();
+                    } else {
+
+                        if (mIsStartFromRecycleed) {
+
+                            ((NormalHolder)holder).chronometer.setBase(SystemClock.elapsedRealtime() - mRecordtime2);
+                            mIsStartFromRecycleed = false;
+
+                        } else {
+
+                            ((NormalHolder)holder).chronometer.setBase( ((NormalHolder)holder).chronometer.getBase()
+                                    + SystemClock.elapsedRealtime() - mRecordtime);
+
+                        }
+
+
+                        ((NormalHolder)holder).chronometer.start();
+
+                        isChronometerRunning = true;
+
 
                     }
 
 
-                    holder.chronometer.start();
+                }
+            });
 
-                    isChronometerRunning = true;
+
+            ((NormalHolder)holder).mBtnStop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    ((NormalHolder)holder).chronometer.stop();
+                    ((NormalHolder)holder).chronometer.setBase(SystemClock.elapsedRealtime());
+                    ((NormalHolder)holder).mView.flipTheView();
+                    log.isstart = false;
+
+                    log.setCounTime(log.getCounTime() + logtime);
+
+
+                    /**
+                     * 每次计时结束以后，修改countime的值。
+                     */
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("counTime", log.getCounTime());
+                    DataSupport.update(Log.class, contentValues, log.getId());
+
+                    notifyDataSetChanged();
+
+                    clearData();
 
 
                 }
+            });
 
 
-            }
-        });
+            ((NormalHolder)holder).chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
 
 
-        holder.mBtnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    if (position == mRecordPosition) {
 
-                holder.chronometer.stop();
-                holder.chronometer.setBase(SystemClock.elapsedRealtime());
-                holder.mView.flipTheView();
-                log.isstart = false;
+                        android.util.Log.e("123", chronometer.toString());
+                        logtime += 1000;
 
-                log.setCounTime(log.getCounTime()+logtime);
+                    }
+                }
+            });
 
 
-                /**
-                 * 每次计时结束以后，修改countime的值。
-                 */
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("counTime",log.getCounTime());
-                DataSupport.update(Log.class,contentValues,log.getId());
+        }else {
 
-                notifyDataSetChanged();
-
-                clearData();
-
-
-            }
-        });
-
-
-        holder.chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-
-
-                if (position == mRecordPosition) {
-
-                    android.util.Log.e("123", chronometer.toString());
-                    logtime += 1000;
+            ((empteyHolder)holder).addImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
                 }
-            }
-        });
+            });
+
+        }
 
     }
 
@@ -287,12 +334,12 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues.size()+1;
     }
 
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class NormalHolder extends RecyclerView.ViewHolder {
         public final EasyFlipView mView;
         public final TextView mIdView;
         public final Button mImgbtn;
@@ -304,7 +351,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
         public final  TextView mTvCountTime;
 
 
-        public ViewHolder(EasyFlipView view) {
+        public NormalHolder(EasyFlipView view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.tv_project_name);
@@ -319,6 +366,18 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
         }
 
 
+    }
+
+
+    public class empteyHolder extends RecyclerView.ViewHolder{
+
+        public  final  ImageView addImg;
+
+        public empteyHolder(View itemView) {
+            super(itemView);
+            addImg = itemView.findViewById(R.id.add_img);
+
+        }
     }
 
 
