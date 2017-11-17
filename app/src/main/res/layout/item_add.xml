@@ -1,15 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.wajahatkarim3.easyflipview.EasyFlipView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_flip"
+    android:layout_marginTop="10dp"
+    app:flipOnTouch="false"
+    app:flipEnabled="true"
+    app:flipDuration="400">
 
-    <ImageView
-        android:background="@color/colorAccent"
-        android:id="@+id/add_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="VectorDrawableCompat" />
+    <!-- Back Layout Goes Here -->
+    <include layout="@layout/add_back"/>
 
-</LinearLayout>
+    <!-- Front Layout Goes Here -->
+    <include layout="@layout/add_front"/>
+
+</com.wajahatkarim3.easyflipview.EasyFlipView>

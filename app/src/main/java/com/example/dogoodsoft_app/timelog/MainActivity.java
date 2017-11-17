@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
+
 import com.example.dogoodsoft_app.timelog.adapter.MyItemRecyclerViewAdapter2;
 import com.example.dogoodsoft_app.timelog.adapter.MyItemTouchHelperCallBack;
 import com.example.dogoodsoft_app.timelog.modols.Log;
@@ -36,6 +38,18 @@ public class MainActivity extends AppCompatActivity {
                 new MyItemRecyclerViewAdapter2(logs,this);
 //            recyclerView.addItemDecoration(new SpaceItemDecoration(10,2));
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        mAdapter.setmOnItemClickListener(new MyItemRecyclerViewAdapter2.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (position == logs.size()){
+
+                    addLog();
+
+                }
+            }
+        });
+
         recyclerView.setAdapter(mAdapter);
 
         /**
@@ -46,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper helper = new ItemTouchHelper(callback);
 
         helper.attachToRecyclerView(recyclerView);
+    }
+
+    private void addLog() {
+
+
+
+
     }
 
     private void isfirstIn(){

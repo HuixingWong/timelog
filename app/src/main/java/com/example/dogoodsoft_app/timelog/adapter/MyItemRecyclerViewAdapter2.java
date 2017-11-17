@@ -25,7 +25,7 @@ import java.util.List;
 /**
  */
 public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements ItemTouchHellperAdapter {
+        implements ItemTouchHellperAdapter, View.OnClickListener{
 
     private final List<Log> mValues;
 
@@ -73,6 +73,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
      * 点击暂停与点击开始之间有没有被销毁过
      */
     private boolean mIsStartFromRecycleed = false;
+
+    private OnItemClickListener mOnItemClickListener = null;
 
     public static enum ITEM_TYPE {
         ITEM_TYPE_NORMAL,
@@ -134,7 +136,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
             return new NormalHolder(view);
         }else {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_add,parent,false);
+            EasyFlipView view = (EasyFlipView) LayoutInflater.from(context).inflate(R.layout.item_add,parent,false);
 
             return new empteyHolder(view);
         }
@@ -306,6 +308,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View view) {
 
+                    ((empteyHolder) holder).flipView.flipTheView();
+
                 }
             });
 
@@ -371,10 +375,12 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
 
     public class empteyHolder extends RecyclerView.ViewHolder{
 
+        public final  EasyFlipView flipView;
         public  final  ImageView addImg;
 
-        public empteyHolder(View itemView) {
+        public empteyHolder(EasyFlipView itemView) {
             super(itemView);
+            flipView = itemView;
             addImg = itemView.findViewById(R.id.add_img);
 
         }
@@ -485,4 +491,20 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
     /**
      * 拖拽移动的方法+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      */
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //使用getTag方法获取position
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+        }
+    }
+
+    public  interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setmOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
 }
