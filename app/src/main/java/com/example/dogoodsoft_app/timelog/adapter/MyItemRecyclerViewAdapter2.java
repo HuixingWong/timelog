@@ -266,13 +266,26 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View view) {
 
-                    ((NormalHolder)holder).chronometer.stop();
-                    ((NormalHolder)holder).chronometer.setBase(SystemClock.elapsedRealtime());
-                    ((NormalHolder)holder).mView.flipTheView();
+
                     log.isstart = false;
 
-                    log.setCounTime(log.getCounTime() + logtime);
 
+
+                    String s = ((NormalHolder) holder).chronometer.getText().toString();
+
+                    String[] my =s.split(":");
+                    int hour = 0;
+                    if (my.length > 2){
+
+                       hour  =Integer.parseInt(my[my.length-3]);
+
+                    }
+                    int min =Integer.parseInt(my[my.length-2]);
+                    int sec =Integer.parseInt(my[my.length-1]);
+
+                    long totalSec =(hour*3600+min*60+sec)*1000;
+
+                    log.setCounTime(log.getCounTime() + totalSec);
 
                     /**
                      * 每次计时结束以后，修改countime的值。
@@ -280,6 +293,10 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
                     ContentValues contentValues = new ContentValues();
                     contentValues.put("counTime", log.getCounTime());
                     DataSupport.update(Log.class, contentValues, log.getId());
+
+                    ((NormalHolder)holder).chronometer.stop();
+                    ((NormalHolder)holder).chronometer.setBase(SystemClock.elapsedRealtime());
+                    ((NormalHolder)holder).mView.flipTheView();
 
                     notifyDataSetChanged();
 
