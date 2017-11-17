@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  */
 public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements ItemTouchHellperAdapter, View.OnClickListener{
+        implements ItemTouchHellperAdapter, View.OnClickListener,View.OnLongClickListener{
 
     private final List<Log> mValues;
 
@@ -78,6 +79,17 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
     private boolean mIsStartFromRecycleed = false;
 
     private OnItemClickListener mOnItemClickListener = null;
+    private OnItemLongClickListener mOnItemLongClickListener = null;
+
+    @Override
+    public boolean onLongClick(View view) {
+        if (mOnItemLongClickListener != null) {
+            //使用getTag方法获取position
+            mOnItemLongClickListener.onItemlongClick(view, (int) view.getTag());
+        }
+        return false;
+    }
+
 
     public static enum ITEM_TYPE {
         ITEM_TYPE_NORMAL,
@@ -565,7 +577,15 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
         void onItemClick(View view, int position);
     }
 
+    public  interface OnItemLongClickListener {
+        void onItemlongClick(View view, int position);
+    }
+
     public void setmOnItemClickListener(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+    public void setmOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.mOnItemLongClickListener = onItemLongClickListener;
     }
 }

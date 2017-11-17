@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.dogoodsoft_app.timelog.adapter.MyItemRecyclerViewAdapter2;
 import com.example.dogoodsoft_app.timelog.adapter.MyItemTouchHelperCallBack;
@@ -39,14 +40,11 @@ public class MainActivity extends AppCompatActivity {
 //            recyclerView.addItemDecoration(new SpaceItemDecoration(10,2));
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        mAdapter.setmOnItemClickListener(new MyItemRecyclerViewAdapter2.OnItemClickListener() {
+
+        mAdapter.setmOnItemLongClickListener(new MyItemRecyclerViewAdapter2.OnItemLongClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                if (position == logs.size()){
-
-                    addLog();
-
-                }
+            public void onItemlongClick(View view, int position) {
+                Toast.makeText(MainActivity.this, "长按", Toast.LENGTH_SHORT).show();
             }
         });
 
