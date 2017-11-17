@@ -318,6 +318,12 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
         int toposition = target.getAdapterPosition();
         if (frompostion < mValues.size() && toposition < mValues.size()) {
 
+            updateWhenMove(frompostion,toposition);
+
+            /**
+             * 因为这个swap方法交换的时候，将id值一起修改了随着position
+             * 但是下面那个更新方法里面只修改了除了id以外的其他值。
+             */
             Collections.swap(mValues, frompostion, toposition);
 
             notifyItemMoved(frompostion, toposition);
@@ -328,7 +334,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
              */
             this.notifyDataSetChanged();
 
-            updateWhenMove(frompostion,toposition);
+
 
         }
 
@@ -356,6 +362,13 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
 
         DataSupport.update(Log.class,valuesFrom,idTo);
         DataSupport.update(Log.class,valuesTo,idFrom);
+
+        /**
+         * 在这里把From和To的id值再交换一下
+         * 这样swap的时候id的位置就不会变化了
+         */
+        logfrom.setId(idTo);
+        logTo.setId(idFrom);
 
 
     }
