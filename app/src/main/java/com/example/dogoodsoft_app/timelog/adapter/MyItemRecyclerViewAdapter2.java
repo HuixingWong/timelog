@@ -4,11 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -313,6 +316,41 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
                 }
             });
 
+            ((empteyHolder)holder).btnSure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    String text = ((empteyHolder) holder).etName.getText().toString();
+                    if (TextUtils.isEmpty(text)){
+
+
+                        Toast.makeText(context, "请输入分类名", Toast.LENGTH_SHORT).show();
+
+                    }else {
+
+                        Log log = new Log();
+                        log.setStartTime(System.currentTimeMillis());
+                        log.setCounTime(0l);
+                        log.setName(text);
+
+                        boolean save = log.save();
+
+                        if (save){
+
+                            mValues.add(log);
+                            notifyDataSetChanged();
+                            ((empteyHolder) holder).flipView.flipTheView();
+
+                        }else {
+
+                            Toast.makeText(context, "添加失败", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+            });
+
         }
 
     }
@@ -378,10 +416,16 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
         public final  EasyFlipView flipView;
         public  final  ImageView addImg;
 
+        public final EditText etName;
+
+        public final  Button btnSure;
+
         public empteyHolder(EasyFlipView itemView) {
             super(itemView);
             flipView = itemView;
             addImg = itemView.findViewById(R.id.add_img);
+            btnSure = itemView.findViewById(R.id.btn_add_sure);
+            etName = itemView.findViewById(R.id.type_name_et);
 
         }
     }
