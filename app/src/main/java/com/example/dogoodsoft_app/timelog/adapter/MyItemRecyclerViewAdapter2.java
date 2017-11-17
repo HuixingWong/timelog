@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.dogoodsoft_app.timelog.MyApp;
 import com.example.dogoodsoft_app.timelog.R;
 import com.example.dogoodsoft_app.timelog.modols.Log;
+import com.example.dogoodsoft_app.timelog.utils.TimeUtils;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 import org.litepal.crud.DataSupport;
 
@@ -52,7 +53,6 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
      */
     boolean isChronometerRunning = false;
 
-    private Log mLog;
 
     /**
      * 正在记录的view的position
@@ -130,6 +130,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Log log = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getName());
+
+        holder.mTvCountTime.setText(TimeUtils.format(log.getCounTime()));
 
         if (log.isstart && position == mRecordPosition) {
             if (holder.mView.isFrontSide()) {
@@ -229,6 +231,18 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
                 holder.mView.flipTheView();
                 log.isstart = false;
 
+                log.setCounTime(log.getCounTime()+logtime);
+
+
+                /**
+                 * 每次计时结束以后，修改countime的值。
+                 */
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("counTime",log.getCounTime());
+                DataSupport.update(Log.class,contentValues,log.getId());
+
+                notifyDataSetChanged();
+
                 clearData();
 
 
@@ -287,6 +301,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
         public final Button mBtnPause;
         public final Button mBtnStop;
 
+        public final  TextView mTvCountTime;
+
 
         public ViewHolder(EasyFlipView view) {
             super(view);
@@ -299,6 +315,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
             mBtnPause = view.findViewById(R.id.btn_pause);
             mBtnStop = view.findViewById(R.id.btn_stop);
 
+            mTvCountTime = view.findViewById(R.id.tv_counttime);
         }
 
 
