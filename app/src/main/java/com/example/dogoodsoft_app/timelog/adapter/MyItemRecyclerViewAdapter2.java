@@ -335,7 +335,15 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View view) {
 
-                    ((empteyHolder) holder).flipView.flipTheView();
+                    if (mRecordPosition == -1){
+
+                        ((empteyHolder) holder).flipView.flipTheView();
+
+                    }else {
+
+                        Toast.makeText(context, "专注结束以后添加", Toast.LENGTH_SHORT).show();
+
+                    }
 
                 }
             });
@@ -349,7 +357,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
                     if (TextUtils.isEmpty(text)){
 
 
-                        Toast.makeText(context, "请输入分类名", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "请输入分类名后添加", Toast.LENGTH_SHORT).show();
+                        ((empteyHolder) holder).flipView.flipTheView();
 
                     }else {
 
@@ -364,7 +373,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
 
                             mValues.add(log);
                             notifyDataSetChanged();
-                            ((empteyHolder) holder).flipView.flipTheView();
+
 
                         }else {
 
