@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/emerald"
+    android:background="@drawable/bg_circ_rec_grey"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -34,6 +34,8 @@
         android:layout_height="wrap_content">
 
         <Button
+                android:textColor="@android:color/white"
+                android:text="暂停"
             android:id="@+id/btn_pause"
             android:layout_weight="1"
             android:background="@color/transparent"
@@ -42,6 +44,9 @@
         />
 
         <Button
+                android:textColor="@android:color/white"
+
+                android:text="结束"
             android:id="@+id/btn_stop"
             android:layout_weight="1"
             android:background="@color/transparent"
