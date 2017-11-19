@@ -27,8 +27,8 @@
         />
 
     <TextView
-        android:id="@+id/tv_counttime"
-        android:text="总计时常"
+        android:id="@+id/tv_starttime"
+        android:text="开始时间"
         android:textColor="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +36,18 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/tv_project_name"
         />
+
+    <TextView
+            android:id="@+id/tv_counttime"
+            android:text="总计时常"
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tv_starttime"
+    />
+
 
 
 

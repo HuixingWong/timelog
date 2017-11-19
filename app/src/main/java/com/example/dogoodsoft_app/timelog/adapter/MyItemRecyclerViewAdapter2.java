@@ -4,18 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.example.dogoodsoft_app.timelog.MyApp;
 import com.example.dogoodsoft_app.timelog.R;
 import com.example.dogoodsoft_app.timelog.modols.Log;
@@ -184,6 +177,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
             ((NormalHolder)holder).mIdView.setText(mValues.get(position).getName());
 
             ((NormalHolder)holder).mTvCountTime.setText(TimeUtils.format(log.getCounTime()));
+
+            ((NormalHolder)holder).mTVStartTime.setText(TimeUtils.parseTime(log.getStartTime()));
 
             if (log.isstart && position == mRecordPosition) {
                 if ( ((NormalHolder)holder).mView.isFrontSide()) {
@@ -421,6 +416,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
 
         public final  TextView mTvCountTime;
 
+        public final TextView mTVStartTime;
+
 
         public NormalHolder(EasyFlipView view) {
             super(view);
@@ -434,6 +431,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
             mBtnStop = view.findViewById(R.id.btn_stop);
 
             mTvCountTime = view.findViewById(R.id.tv_counttime);
+
+            mTVStartTime = view.findViewById(R.id.tv_starttime);
         }
 
 
