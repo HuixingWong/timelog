@@ -140,7 +140,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerVie
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE.ITEM_TYPE_NORMAL.ordinal()){
             EasyFlipView view = (EasyFlipView) LayoutInflater.from(context)
-                    .inflate(R.layout.recycleview_item, parent, false);
+                    .inflate(R.layout.recycleview_item, null, false);
             return new NormalHolder(view);
         }else {
 
